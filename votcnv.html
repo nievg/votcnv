@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+</head>
+<body>
+<h2>Canvas</h2>
+  <canvas id="cnv" width="150" height="200">
+  </canvas>
+  <script type="text/javascript">
+
+  var yesCount = 7;
+  var noCount  = 4;
+  var yesPercent = (yesCount/(yesCount + noCount) * 100).toFixed(0);
+  var noPercent  = 100 - yesPercent;
+  var canvasWidth = 150;
+  var canvasHeight = 200;
+  var bar_width = 40;
+  var bar_topLine = 20;
+  var bar_baseLine = 170;
+  var barMaxHeight = (bar_baseLine - bar_topLine)/100;
+  var space_betweenBars = 20;
+  var backgroundColor = "rgba(0, 0, 0, 100)";
+  var yesColor = "rgba(0, 150, 0, 100)";
+  var noColor  = "rgba(220, 0, 0, 100)";
+  var yesX = (canvasWidth - space_betweenBars)/2 - bar_width
+  var yesY = (noPercent * barMaxHeight + bar_topLine).toFixed(0);
+  var yesH = bar_baseLine - yesY;
+  var noX  = (canvasWidth + space_betweenBars)/2;
+  var noY  = (yesPercent * barMaxHeight + bar_topLine).toFixed(0);
+  var noH  = bar_baseLine - noY;
+
+  // координати на етиките ДА и НЕ
+  var yesLabelX = 32;
+  var yesLabelY = 192;
+  var noLabelX  = 90;
+  var noLabelY  = yesLabelY;
+
+  // координати на етикетите с проценти
+  var offsetX = 4;
+  var offsetY = 4;
+  var yesLabelPercentX = yesLabelX - offsetX;
+  var yesLabelPercentY = yesY - offsetY;
+  var noLabelPercentX = noLabelX - offsetX;
+  var noLabelPercentY = noY - offsetY;
+
+
+  var theCanvas = document.getElementById("cnv");
+  var ctx = theCanvas.getContext("2d");
+
+  //background
+  ctx.fillStyle = backgroundColor;
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+
+  //yes
+  ctx.fillStyle = yesColor;
+  ctx.fillRect(yesX, yesY, bar_width, yesH);
+  //yes
+  ctx.fillStyle = noColor;
+  ctx.fillRect(noX, noY, bar_width, noH);
+
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("ДА", yesLabelX, yesLabelY);
+  ctx.fillText("НЕ", noLabelX,  noLabelY);
+  ctx.fillText(yesPercent + '%', yesLabelPercentX, yesLabelPercentY);
+  ctx.fillText(noPercent + '%', noLabelPercentX,  noLabelPercentY);
+  </script>
+
+</body>
+</html>
