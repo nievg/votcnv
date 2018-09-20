@@ -45,8 +45,6 @@
 <body>
   <h2>Гласуване</h2>
   <div id="main">
-
-
     <form class="" action="#" method="post">
       <label for="yes">ДА</label>
       <input type="text" id="yes" name="yes" value="1"><br/>
@@ -55,89 +53,88 @@
       <button type="button" name="button" onclick="f2()">Пресметни</button>
     </form>
     <canvas id="cnv" width="150" height="200"></canvas>
+    <h2 id="prn"></h2>
 
 
   <script type="text/javascript">
+    function f2() {
+      var yesCount = Number(document.getElementById("yes").value);
+      var noCount  = Number(document.getElementById("no").value);
+
+      // Параметри на платното
+      var canvasWidth = 150;
+      var canvasHeight = 200;
+      var backgroundColor = "rgba(0, 0, 0, 100)";
+
+      // Параметри на стълбчетата
+      var bar_width = 40;
+      var bar_topLine = 20;
+      var bar_baseLine = 170;
+      var space_betweenBars = 20;
+      var barMaxHeight = (bar_baseLine - bar_topLine)/100;
+      var yesColor = "rgba(0, 150, 0, 100)";
+      var noColor  = "rgba(220, 0, 0, 100)";
 
 
-function f2() {
+      var yesPercent = (100 * yesCount/(yesCount + noCount)).toFixed(0);
+      var noPercent  = 100 - yesPercent;
+
+      var yesX = (canvasWidth - space_betweenBars)/2 - bar_width
+      var yesY = (noPercent * barMaxHeight + bar_topLine).toFixed(0);
+      var yesH = bar_baseLine - yesY;
+      var noX  = (canvasWidth + space_betweenBars)/2;
+      var noY  = (yesPercent * barMaxHeight + bar_topLine).toFixed(0);
+      var noH  = bar_baseLine - noY;
+
+      // цвят, шрифт и големина на етикетите
+      var labelColor = "white";
+      var labelFont = "20px Arial";
+
+      // координати на етиките ДА и НЕ
+      var yesLabelX = 32;
+      var yesLabelY = 192;
+      var noLabelX  = 90;
+      var noLabelY  = yesLabelY;
+
+      // координати на етикетите с проценти
+      var offsetX = 4;   // отместване заради %
+      var offsetY = 4;   // отместване заради %
+      var yesLabelPercentX = yesLabelX - offsetX;
+      var yesLabelPercentY = yesY - offsetY;
+      var noLabelPercentX = noLabelX - offsetX;
+      var noLabelPercentY = noY - offsetY;
+
+      //  създаване на платното
+      var theCanvas = document.getElementById("cnv");
+      var ctx = theCanvas.getContext("2d");
+
+      // изчертаване на фона
+      ctx.fillStyle = backgroundColor;
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // изчертаване на стълбчето за ДА
+      ctx.fillStyle = yesColor;
+      ctx.fillRect(yesX, yesY, bar_width, yesH);
+
+      // изчертаване на стълбчето за НЕ
+      ctx.fillStyle = noColor;
+      ctx.fillRect(noX, noY, bar_width, noH);
+
+      // изписване на етикетите
+      ctx.font = labelFont;
+      ctx.fillStyle = labelColor;
+      ctx.fillText("ДА", yesLabelX, yesLabelY);
+      ctx.fillText("НЕ", noLabelX,  noLabelY);
+      ctx.fillText(yesPercent + '%', yesLabelPercentX, yesLabelPercentY);
+      ctx.fillText(noPercent + '%', noLabelPercentX,  noLabelPercentY);
 
 
-  var yesCount = document.getElementById("yes").value;
-  var noCount  = document.getElementById("no").value;
-
-
-  var canvasWidth = 150;
-  var canvasHeight = 200;
-  var backgroundColor = "rgba(0, 0, 0, 100)";
-  
-  var bar_width = 40;
-  var bar_topLine = 20;
-  var bar_baseLine = 170;
-  var barMaxHeight = (bar_baseLine - bar_topLine)/100;
-  var space_betweenBars = 20;
-
-  var yesColor = "rgba(0, 150, 0, 100)";
-  var noColor  = "rgba(220, 0, 0, 100)";
-
-
-  var yesPercent = (yesCount/(yesCount + noCount) * 100).toFixed(0);
-  var noPercent  = 100 - yesPercent;
-
-  var yesX = (canvasWidth - space_betweenBars)/2 - bar_width
-  var yesY = (noPercent * barMaxHeight + bar_topLine).toFixed(0);
-  var yesH = bar_baseLine - yesY;
-  var noX  = (canvasWidth + space_betweenBars)/2;
-  var noY  = (yesPercent * barMaxHeight + bar_topLine).toFixed(0);
-  var noH  = bar_baseLine - noY;
-
-  // цвят, шрифт и големина на етикетите
-  var labelColor = "white";
-  var labelFont = "20px Arial";
-
-  // координати на етиките ДА и НЕ
-  var yesLabelX = 32;
-  var yesLabelY = 192;
-  var noLabelX  = 90;
-  var noLabelY  = yesLabelY;
-
-  // координати на етикетите с проценти
-  var offsetX = 4;   // отместване заради %
-  var offsetY = 4;   // отместване заради %
-  var yesLabelPercentX = yesLabelX - offsetX;
-  var yesLabelPercentY = yesY - offsetY;
-  var noLabelPercentX = noLabelX - offsetX;
-  var noLabelPercentY = noY - offsetY;
-
-  var theCanvas = document.getElementById("cnv");
-  var ctx = theCanvas.getContext("2d");
-
-
-  //background
-  ctx.fillStyle = backgroundColor;
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-  // изчертаване на стълбчето за ДА
-  ctx.fillStyle = yesColor;
-  ctx.fillRect(yesX, yesY, bar_width, yesH);
-
-  // изчертаване на стълбчето за НЕ
-  ctx.fillStyle = noColor;
-  ctx.fillRect(noX, noY, bar_width, noH);
-
-  // изписване на етикетите
-  ctx.font = labelFont;
-  ctx.fillStyle = labelColor;
-  ctx.fillText("ДА", yesLabelX, yesLabelY);
-  ctx.fillText("НЕ", noLabelX,  noLabelY);
-  ctx.fillText(yesPercent + '%', yesLabelPercentX, yesLabelPercentY);
-  ctx.fillText(noPercent + '%', noLabelPercentX,  noLabelPercentY);
-}
-//f2();
-
+      document.getElementById("prn").innerHTML=
+      'yesCount=' + yesCount + 'noCount=' + noCount + 'yesPercent=' + yesPercent +
+      'yes+no='+ yesCount + noCount;
+    }
 
   </script>
-
 </div>
 </body>
 </html>
