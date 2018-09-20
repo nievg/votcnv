@@ -19,7 +19,7 @@
       border: 0px solid orange;
       margin: 0 auto;
     }
-    input{
+    input,button{
       font-family: Consolas, sans-serif;
       font-size: 18px;
       width: 100px;
@@ -27,7 +27,7 @@
       text-align: right;
       margin: 2px auto;
     }
-    .submit{
+    button{
       text-align: center;
       margin-left: 28px;
       margin: 3px auto 2px 28px;
@@ -47,32 +47,42 @@
   <div id="main">
 
 
-    <form class="" action="index.html" method="post">
+    <form class="" action="#" method="post">
       <label for="yes">ДА</label>
       <input type="text" id="yes" name="yes" value="1"><br/>
       <label for="no">НЕ</label>
-      <input type="text" name="no" value="1"><br/>
-      <input type="submit" name="sbmit" class="submit" value="Пресметни">
+      <input type="text" id="no"  name="no"  value="1"><br/>
+      <button type="button" name="button" onclick="f2()">Пресметни</button>
     </form>
     <canvas id="cnv" width="150" height="200"></canvas>
 
 
   <script type="text/javascript">
 
-  var yesCount = 7;
-  var noCount  = 4;
-  var yesPercent = (yesCount/(yesCount + noCount) * 100).toFixed(0);
-  var noPercent  = 100 - yesPercent;
+
+function f2() {
+
+
+  var yesCount = document.getElementById("yes").value;
+  var noCount  = document.getElementById("no").value;
+
+
   var canvasWidth = 150;
   var canvasHeight = 200;
+  var backgroundColor = "rgba(0, 0, 0, 100)";
+  
   var bar_width = 40;
   var bar_topLine = 20;
   var bar_baseLine = 170;
   var barMaxHeight = (bar_baseLine - bar_topLine)/100;
   var space_betweenBars = 20;
-  var backgroundColor = "rgba(0, 0, 0, 100)";
+
   var yesColor = "rgba(0, 150, 0, 100)";
   var noColor  = "rgba(220, 0, 0, 100)";
+
+
+  var yesPercent = (yesCount/(yesCount + noCount) * 100).toFixed(0);
+  var noPercent  = 100 - yesPercent;
 
   var yesX = (canvasWidth - space_betweenBars)/2 - bar_width
   var yesY = (noPercent * barMaxHeight + bar_topLine).toFixed(0);
@@ -122,6 +132,10 @@
   ctx.fillText("НЕ", noLabelX,  noLabelY);
   ctx.fillText(yesPercent + '%', yesLabelPercentX, yesLabelPercentY);
   ctx.fillText(noPercent + '%', noLabelPercentX,  noLabelPercentY);
+}
+//f2();
+
+
   </script>
 
 </div>
